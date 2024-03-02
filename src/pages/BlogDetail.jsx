@@ -23,14 +23,14 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const blogResponse = await fetch(`/api/blogs/showBlog/${id}`, {
+        const blogResponse = await fetch(`https://urbannest-backend.onrender.com/api/blogs/showBlog/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
           credentials: 'include',
         });
-        const userUpvoteStatusResponse = await fetch(`/api/blogs/checkUpvote/${id}`, {
+        const userUpvoteStatusResponse = await fetch(`https://urbannest-backend.onrender.com/api/blogs/checkUpvote/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const BlogDetail = () => {
           credentials: 'include',
         });
 
-        const userDownvoteStatusResponse = await fetch(`/api/blogs/checkDownvote/${id}`, {
+        const userDownvoteStatusResponse = await fetch(`https://urbannest-backend.onrender.com/api/blogs/checkDownvote/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ const BlogDetail = () => {
 
     const fetchComments = async () => {
       try{
-        const response = await axios.get(`/api/blogs/showAllComments/${id}`, {
+        const response = await axios.get(`https://urbannest-backend.onrender.com/api/blogs/showAllComments/${id}`, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -84,7 +84,7 @@ const BlogDetail = () => {
 
         console.log('in fetchComments id:', id);
 
-        const voteStatusResponse = await fetch(`/api/blogs/checkVoteComment/${id}`, {
+        const voteStatusResponse = await fetch(`https://urbannest-backend.onrender.com/api/blogs/checkVoteComment/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -111,20 +111,20 @@ const BlogDetail = () => {
   const handleUpVote = async () => {
     // If already downvoted, first reverse the downvote
     if (hasDownvoted) {
-      await handleVoteChange(`/api/blogs/decreaseDownvoteBlog/${id}`, setHasDownvoted, 'numOfDownvotes', -1);
+      await handleVoteChange(`https://urbannest-backend.onrender.com/api/blogs/decreaseDownvoteBlog/${id}`, setHasDownvoted, 'numOfDownvotes', -1);
     }
 
-    const endpoint = hasUpvoted ? `/api/blogs/decreaseUpvoteBlog/${id}` : `/api/blogs/upvoteBlog/${id}`;
+    const endpoint = hasUpvoted ? `https://urbannest-backend.onrender.com/api/blogs/decreaseUpvoteBlog/${id}` : `/api/blogs/upvoteBlog/${id}`;
     await handleVoteChange(endpoint, setHasUpvoted, 'numOfUpvotes', hasUpvoted ? -1 : 1);
   };
 
   const handleDownVote = async () => {
     // If already upvoted, first reverse the upvote
     if (hasUpvoted) {
-      await handleVoteChange(`/api/blogs/decreaseUpvoteBlog/${id}`, setHasUpvoted, 'numOfUpvotes', -1);
+      await handleVoteChange(`https://urbannest-backend.onrender.com/api/blogs/decreaseUpvoteBlog/${id}`, setHasUpvoted, 'numOfUpvotes', -1);
     }
 
-    const endpoint = hasDownvoted ? `/api/blogs/decreaseDownvoteBlog/${id}` : `/api/blogs/downvoteBlog/${id}`;
+    const endpoint = hasDownvoted ? `https://urbannest-backend.onrender.com/api/blogs/decreaseDownvoteBlog/${id}` : `/api/blogs/downvoteBlog/${id}`;
     await handleVoteChange(endpoint, setHasDownvoted, 'numOfDownvotes', hasDownvoted ? -1 : 1);
   };
 
@@ -154,7 +154,7 @@ const BlogDetail = () => {
     e.preventDefault();
   
     try {
-      const response = await fetch(`/api/blogs/createComment/${id}`, {
+      const response = await fetch(`https://urbannest-backend.onrender.com/api/blogs/createComment/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -206,14 +206,14 @@ const BlogDetail = () => {
 
     if (currentStatus === 1) {
       // Cancel the upvote
-      endpoint = `/api/blogs/decreaseUpvoteComment/${commentId}`;
+      endpoint = `https://urbannest-backend.onrender.com/api/blogs/decreaseUpvoteComment/${commentId}`;
       await handleCommentVoteChange(endpoint, index, 0);
 
     } else {
       // Apply upvote
       if (currentStatus === -1) {
         // First, cancel the downvote
-        await handleCommentVoteChange(`/api/blogs/decreaseDownvoteComment/${commentId}`, index, 0);
+        await handleCommentVoteChange(`https://urbannest-backend.onrender.com/api/blogs/decreaseDownvoteComment/${commentId}`, index, 0);
       }
       // Then, apply the upvote
       endpoint = `/api/blogs/upvoteComment/${commentId}`;
@@ -231,13 +231,13 @@ const BlogDetail = () => {
     
     if (currentStatus === -1) {
       // Cancel the downvote
-      endpoint = `/api/blogs/decreaseDownvoteComment/${commentId}`;
+      endpoint = `https://urbannest-backend.onrender.com/api/blogs/decreaseDownvoteComment/${commentId}`;
       await handleCommentVoteChange(endpoint, index, 0);
     } else {
       // Apply downvote
       if (currentStatus === 1) {
         // First, cancel the upvote
-        await handleCommentVoteChange(`/api/blogs/decreaseUpvoteComment/${commentId}`, index, 0);
+        await handleCommentVoteChange(`https://urbannest-backend.onrender.com/api/blogs/decreaseUpvoteComment/${commentId}`, index, 0);
       }
       // Then, apply the downvote
       endpoint = `/api/blogs/downvoteComment/${commentId}`;
