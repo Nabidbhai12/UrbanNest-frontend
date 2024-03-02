@@ -31,7 +31,7 @@ export default function SignIn() {
 
     // Replace with your authentication logic
     try {
-      const res = await fetch('/api/auth/signin', {
+      const res = await fetch('urban-nest-backend.vercel.app/api/auth/signin', {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
