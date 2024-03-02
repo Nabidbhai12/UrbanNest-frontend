@@ -26,7 +26,13 @@ const EditBlog = () => {
         const fetchBlog = async () => {
             try{
                 console.log("blogid in usereffect: ", id);
-                const response = await fetch(`https://urbannest-backend.onrender.com/api/blogs/showBlog/${id}`);
+                const response = await fetch(`https://urbannest-backend.onrender.com/api/blogs/showBlog/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                });
                 const data = await response.json();
 
                 setTitle(data.title);
@@ -65,7 +71,8 @@ const EditBlog = () => {
             // Assuming '/api/images/upload' is your image upload endpoint
             const response = await fetch ('https://urbannest-backend.onrender.com/api/blogs/upload', {
               method: 'POST',
-              body: formData
+              body: formData,
+              credentials: 'include',
             });
             const data = await response.json(); // Parse the JSON from the response
             console.log(data);
@@ -92,10 +99,11 @@ const EditBlog = () => {
         formdata.append('imageUrls', JSON.stringify(imageUrls));
 
         try{
-            const response = await axios.put(`/api/blogs/updateBlog/${id}`, formdata, {
+            const response = await axios.put(`https://urbannest-backend.onrender.com/api/blogs/updateBlog/${id}`, formdata, {
                 headers: {
                   'Content-Type': 'multipart/form-data',
                 },
+                withCredentials: true,
             });
             console.log('Blog submitted:', response.data);
             alert('Blog updated successfully!');

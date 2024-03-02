@@ -23,15 +23,35 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const blogResponse = await fetch(`https://urbannest-backend.onrender.com/api/blogs/showBlog/${id}`);
-        const userUpvoteStatusResponse = await fetch(`https://urbannest-backend.onrender.com/api/blogs/checkUpvote/${id}`, {});
+        const blogResponse = await fetch(`/api/blogs/showBlog/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
+        const userUpvoteStatusResponse = await fetch(`/api/blogs/checkUpvote/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
 
-        const userDownvoteStatusResponse = await fetch(`https://urbannest-backend.onrender.com/api/blogs/checkDownvote/${id}`, {});
+        const userDownvoteStatusResponse = await fetch(`/api/blogs/checkDownvote/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
 
         console.log('in fetchBlog id:', id);
   
         if (blogResponse.ok && userUpvoteStatusResponse.ok && userDownvoteStatusResponse.ok) {
           const blogData = await blogResponse.json();
+
+          console.log(blogData.content);
           const hasUpvoted = await userUpvoteStatusResponse.json().hasUpvoted;
           const hasDownvoted = await userDownvoteStatusResponse.json().hasDownvoted;
   
@@ -52,14 +72,25 @@ const BlogDetail = () => {
 
     const fetchComments = async () => {
       try{
-        const response = await axios.get(`https://urbannest-backend.onrender.com/api/blogs/showAllComments/${id}`);
+        const response = await axios.get(`/api/blogs/showAllComments/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        });
 
         console.log('in fetchComments response:', response);
         setComments(response.data);
 
         console.log('in fetchComments id:', id);
 
-        const voteStatusResponse = await fetch(`https://urbannest-backend.onrender.com/api/blogs/checkVoteComment/${id}`, {});
+        const voteStatusResponse = await fetch(`/api/blogs/checkVoteComment/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        });
         console.log('in fetchComments voteStatusResponse:', voteStatusResponse);
         if(voteStatusResponse.ok){
           const voteStatusData = await voteStatusResponse.json();
@@ -100,7 +131,13 @@ const BlogDetail = () => {
   // Refactored vote handling logic to reduce duplication
   const handleVoteChange = async (endpoint, setState, countKey, delta) => {
     try {
-      const response = await axios.put(endpoint);
+      const response = await axios.put(endpoint, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      
+      });
       if (response.status === 200) {
         setState(prevState => !prevState);
         setBlog(prevBlog => ({
@@ -117,11 +154,12 @@ const BlogDetail = () => {
     e.preventDefault();
   
     try {
-      const response = await fetch(`https://urbannest-backend.onrender.com/api/blogs/createComment/${id}`, {
+      const response = await fetch(`/api/blogs/createComment/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ blogId: id, content: comment }),
       });
   
@@ -141,7 +179,12 @@ const BlogDetail = () => {
     try {
       console.log('in handleCommentVoteChange endpoint:', endpoint);
       console.log('in handleCommentVoteChange newStatus:', newStatus);
-      const response = await axios.put(endpoint);
+      const response = await axios.put(endpoint, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      });
       if (response.status === 200) {
         // Directly update the specific index in the commentVoteStatuses array
         setCommentVoteStatuses(prevStatuses =>
@@ -207,25 +250,43 @@ const BlogDetail = () => {
     return <div className="text-center mt-20">Loading...</div>;
   }
 
-  const extractContent = (content) => {
+  // const extractContent = (content) => {
+  //   const div = document.createElement('div');
+  //   div.innerHTML = content;
+  //   const text = div.textContent || div.innerText || '';
+  //   const image = div.querySelector('img') ? div.querySelector('img').src : 'default-image.jpg';
+  //   let tags;
+  //   try {
+  //       // Assuming `blog.tags` is something like ['["ab","bc","cd"]']
+  //       // and you want to parse it to get the actual array of tags
+  //       tags = JSON.parse(blog.tags[0]);
+  //   } catch (error) {
+  //       console.error('Error parsing tags:', error);
+  //       tags = []; // Default to an empty array in case of parsing failure
+  //   }
+
+  //   console.log('in extractContent tags:', tags);
+  //   return { text, image, tags };
+  // };
+  const extractContent = (content, tagsData) => {
     const div = document.createElement('div');
     div.innerHTML = content;
     const text = div.textContent || div.innerText || '';
     const image = div.querySelector('img') ? div.querySelector('img').src : 'default-image.jpg';
     let tags;
     try {
-        // Assuming `blog.tags` is something like ['["ab","bc","cd"]']
-        // and you want to parse it to get the actual array of tags
-        tags = JSON.parse(blog.tags[0]);
+      tags = tagsData;
     } catch (error) {
-        console.error('Error parsing tags:', error);
-        tags = []; // Default to an empty array in case of parsing failure
+      console.error('Error parsing tags:', error);
+      tags = []; // Default to an empty array in case of parsing failure
     }
-
+  
     console.log('in extractContent tags:', tags);
     return { text, image, tags };
   };
   //const sanitizedComments = DOMPurify.sanitize(blog.commentList);
+
+  const { text, image, tags } = extractContent(blog.content, blog.tags);
 
   return (
     <div className="bg-yellow-50-custom min-h-screen pt-16">
@@ -243,18 +304,18 @@ const BlogDetail = () => {
           </div>
           {/* Post Content */}
           <div className="px-4 py-5 sm:p-6 ">
-            <div className="prose max-w-none text-[25px]" dangerouslySetInnerHTML={{ __html: extractContent(blog.content).text }} />
+            <div className="prose max-w-none text-[25px]" dangerouslySetInnerHTML={{ __html: (blog.content) }} />
             {/* get the image */}
             <div className='object-center'>
               <img
-                src={extractContent(blog.content).image}
+                src={image}
                 className="h-2/3 w-2/3 object-center object-cover"
                 alt={blog.title}
               />
             </div>
             {/* get the tags*/}
             <div className="flex justify-left space-x-4 mt-5">
-              {extractContent(blog).tags.map((tag) => (
+              {tags.map((tag) => (
                 <Link to={`/blogHome/${tag}`} key={tag}>
                   <span key={tag} className="py-1 px-3 text-sm font-semibold bg-gray-401 rounded-full text-gray-700 mb-2">{tag}</span>
                 </Link>

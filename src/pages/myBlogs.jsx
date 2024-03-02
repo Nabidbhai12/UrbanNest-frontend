@@ -14,7 +14,7 @@ import { set } from 'mongoose';
 const myBlogs = () => {
     const [blogs, setBlogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const blogsPerPage = 6;
+    const blogsPerPage = 8;
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const navigate = useNavigate();
@@ -22,7 +22,9 @@ const myBlogs = () => {
     useEffect(() => {
         const verifyLoginStatus = async () => {
             try {
-                const response = await axios.get('/api/users/verify');
+                const response = await axios.get('https://urbannest-backend.onrender.com/api/users/verify', {
+                    withCredentials: true,
+                });
                 setIsLoggedIn(response.data.isLoggedIn);
                 console.log('Login status:', response.data.isLoggedIn);
             } catch (error) {
@@ -32,12 +34,13 @@ const myBlogs = () => {
 
         const fetchBlogs = async () => {
             try {
-                const response = await fetch ('https://urbannest-backend.onrender.com/api/blogs/showMyBlogs',
+                const response = await fetch ('https://urbannest-backend.onrender.comapi/blogs/showMyBlogs',
                 {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    credentials: 'include',
                 });
                 const data=await response.json();
                 console.log('data received by client side : ', data);
@@ -73,7 +76,10 @@ const myBlogs = () => {
     const handleDelete = async (blogid) => {
         if(window.confirm('Are you sure you want to delete this blog?')){
             try {
-                const response = await axios.delete(`/api/blogs/deleteBlog/${blogid}`);
+                const response = await axios.delete(`https://urbannest-backend.onrender.com/api/blogs/deleteBlog/${blogid}`, {
+                    withCredentials: true,
+                
+                });
 
                 if(response.status === 200){
                     setBlogs(blogs.filter(blog => blog._id !== blogid));
