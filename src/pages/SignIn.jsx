@@ -31,6 +31,7 @@ export default function SignIn() {
 
     // Replace with your authentication logic
     try {
+      console.log("hello");
       const res = await fetch('https://urbannest-backend.onrender.com//api/auth/signin', {
         method: 'POST',
         body: JSON.stringify(formData),
