@@ -70,7 +70,7 @@ const PropertyDetailsPage = () => {
   useEffect(() => {
     const fetchApartment = async () => {
       try {
-        const response = await fetch(`/api/search/property/${id}`);
+        const response = await fetch(`https://urbannest-backend.onrender.com/api/search/property/${id}`);
         if (response.ok) {
           const propertyInfo = await response.json();
           setProperty(propertyInfo);
@@ -93,7 +93,7 @@ const PropertyDetailsPage = () => {
       if (property && property.owner) {
         try {
           const response = await fetch(
-            `/api/users/getUserDetailsByID/${property.owner}`
+            `https://urbannest-backend.onrender.com/api/users/getUserDetailsByID/${property.owner}`
           );
           if (response.ok) {
             const ownerInfo = await response.json();

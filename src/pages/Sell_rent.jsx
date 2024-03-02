@@ -632,7 +632,7 @@ export default function test() {
     }
 
     try {
-      const response = await fetch("/api/users/addPropertyForSale", {
+      const response = await fetch("https://urbannest-backend.onrender.com/api/users/addPropertyForSale", {
         method: "POST",
         body: formData, // send the FormData
         // Note: When using FormData with fetch, do NOT set Content-Type header

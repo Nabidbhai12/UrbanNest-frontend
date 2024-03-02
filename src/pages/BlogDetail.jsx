@@ -23,10 +23,10 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const blogResponse = await fetch(`/api/blogs/showBlog/${id}`);
-        const userUpvoteStatusResponse = await fetch(`/api/blogs/checkUpvote/${id}`, {});
+        const blogResponse = await fetch(`https://urbannest-backend.onrender.com/api/blogs/showBlog/${id}`);
+        const userUpvoteStatusResponse = await fetch(`https://urbannest-backend.onrender.com/api/blogs/checkUpvote/${id}`, {});
 
-        const userDownvoteStatusResponse = await fetch(`/api/blogs/checkDownvote/${id}`, {});
+        const userDownvoteStatusResponse = await fetch(`https://urbannest-backend.onrender.com/api/blogs/checkDownvote/${id}`, {});
 
         console.log('in fetchBlog id:', id);
   
@@ -52,14 +52,14 @@ const BlogDetail = () => {
 
     const fetchComments = async () => {
       try{
-        const response = await axios.get(`/api/blogs/showAllComments/${id}`);
+        const response = await axios.get(`https://urbannest-backend.onrender.com/api/blogs/showAllComments/${id}`);
 
         console.log('in fetchComments response:', response);
         setComments(response.data);
 
         console.log('in fetchComments id:', id);
 
-        const voteStatusResponse = await fetch(`/api/blogs/checkVoteComment/${id}`, {});
+        const voteStatusResponse = await fetch(`https://urbannest-backend.onrender.com/api/blogs/checkVoteComment/${id}`, {});
         console.log('in fetchComments voteStatusResponse:', voteStatusResponse);
         if(voteStatusResponse.ok){
           const voteStatusData = await voteStatusResponse.json();
@@ -117,7 +117,7 @@ const BlogDetail = () => {
     e.preventDefault();
   
     try {
-      const response = await fetch(`/api/blogs/createComment/${id}`, {
+      const response = await fetch(`https://urbannest-backend.onrender.com/api/blogs/createComment/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

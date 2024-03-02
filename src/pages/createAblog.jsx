@@ -35,7 +35,7 @@ const NewBlogPost = () => {
         formData.append('image', file);
         console.log(file);
         // Assuming '/api/images/upload' is your image upload endpoint
-        const response = await fetch ('/api/blogs/upload', {
+        const response = await fetch ('https://urbannest-backend.onrender.com/api/blogs/upload', {
           method: 'POST',
           body: formData
         });

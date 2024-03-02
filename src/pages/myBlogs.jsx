@@ -32,7 +32,7 @@ const myBlogs = () => {
 
         const fetchBlogs = async () => {
             try {
-                const response = await fetch ('/api/blogs/showMyBlogs',
+                const response = await fetch ('https://urbannest-backend.onrender.com/api/blogs/showMyBlogs',
                 {
                     method: 'GET',
                     headers: {

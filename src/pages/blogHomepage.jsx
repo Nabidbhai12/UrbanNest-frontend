@@ -20,7 +20,7 @@ const blogHomepage = () => {
     useEffect(() => {
         const verifyLoginStatus = async () => {
             try {
-                const response = await axios.get('/api/users/verify');
+                const response = await axios.get('https://urbannest-backend.onrender.com/api/users/verify');
                 setIsLoggedIn(response.data.isLoggedIn);
                 console.log('Login status:', response.data.isLoggedIn);
             } catch (error) {
@@ -30,7 +30,7 @@ const blogHomepage = () => {
 
         const fetchBlogs = async () => {
             try {
-                const response = await fetch ('/api/blogs/showAllBlogsByDateDesc',
+                const response = await fetch ('https://urbannest-backend.onrender.com/api/blogs/showAllBlogsByDateDesc',
                 {
                     method: 'GET',
                     headers: {

@@ -35,7 +35,7 @@ export default function SignUp() {
 
     setLoading(true);
     try {
-      const response = await fetch('/api/auth/upload', {
+      const response = await fetch('https://urbannest-backend.onrender.com/api/auth/upload', {
         method: 'POST',
         body: formData,
       });
@@ -68,7 +68,7 @@ export default function SignUp() {
 
     setLoading(true);
     try {
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch('https://urbannest-backend.onrender.com/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

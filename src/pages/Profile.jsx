@@ -41,7 +41,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const res = await fetch(`/api/users/getUserDetails`, {
+        const res = await fetch(`https://urbannest-backend.onrender.com/api/users/getUserDetails`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export default function Profile() {
       // Append other form data
       Object.keys(formData).forEach(key => data.append(key, formData[key]));
 
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+      const res = await fetch(`https://urbannest-backend.onrender.com/api/user/update/${currentUser._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ export default function Profile() {
   const handleDeleteUser = async () => { 
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+      const res = await fetch(`https://urbannest-backend.onrender.com/api/user/delete/${currentUser._id}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -138,7 +138,7 @@ export default function Profile() {
   const handleSignOut = async () => {
          try {
           dispatch(signOutUserStart());
-          const res = await fetch('/api/auth/signout', {
+          const res = await fetch('https://urbannest-backend.onrender.com/api/auth/signout', {
             method: 'POST',
             body: JSON.stringify(formData),
             headers: {
@@ -162,7 +162,7 @@ export default function Profile() {
   const handleShowListings = async () => {
     try {
       setShowListingsError(false);
-      const res = await fetch(`/api/listings/getlisting/${currentUser._id}`);
+      const res = await fetch(`https://urbannest-backend.onrender.com/api/listings/getlisting/${currentUser._id}`);
       const data = await res.json();
       if (data.success === false) {
         setShowListingsError(true);
@@ -176,7 +176,7 @@ export default function Profile() {
   };
   const fetchWishlistItems = async () => {
     try {
-      const res = await fetch(`/api/wishlist/${currentUser._id}`);
+      const res = await fetch(`https://urbannest-backend.onrender.com/api/wishlist/${currentUser._id}`);
       const data = await res.json();
       if (data.success) {
         // Assuming data.wishlistItems contains the wishlist items
@@ -196,7 +196,7 @@ export default function Profile() {
 
   const handleListingDelete = async (listingId) => {
     try {
-      const res = await fetch(`/api/listing/delete/${listingId}`, {
+      const res = await fetch(`https://urbannest-backend.onrender.com/api/listing/delete/${listingId}`, {
         method: 'DELETE',
       });
       const data = await res.json();
