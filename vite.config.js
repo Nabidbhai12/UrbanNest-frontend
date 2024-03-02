@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://urban-nest-backend.vercel.app/api',
+        target: 'http://urban-nest-backend.vercel.app/:3000',
         secure: false,
       },
     },
