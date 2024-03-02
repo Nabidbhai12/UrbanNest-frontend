@@ -11,6 +11,8 @@ const Test = React.lazy(() => import("./pages/test"));
 const Test_backup = React.lazy(() => import("./pages/test_backup"));
 const Search = React.lazy(() => import("./pages/Search"));
 
+
+
 const Sell_rent = React.lazy(() => import("./pages/Sell_rent"));
 
 const CreateAblog = React.lazy(() => import("./pages/createAblog"));
