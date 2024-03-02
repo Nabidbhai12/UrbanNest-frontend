@@ -114,7 +114,7 @@ const BlogDetail = () => {
       await handleVoteChange(`https://urbannest-backend.onrender.com/api/blogs/decreaseDownvoteBlog/${id}`, setHasDownvoted, 'numOfDownvotes', -1);
     }
 
-    const endpoint = hasUpvoted ? `https://urbannest-backend.onrender.com/api/blogs/decreaseUpvoteBlog/${id}` : `/api/blogs/upvoteBlog/${id}`;
+    const endpoint = hasUpvoted ? `https://urbannest-backend.onrender.com/api/blogs/decreaseUpvoteBlog/${id}` : `https://urbannest-backend.onrender.com/api/blogs/upvoteBlog/${id}`;
     await handleVoteChange(endpoint, setHasUpvoted, 'numOfUpvotes', hasUpvoted ? -1 : 1);
   };
 
@@ -124,7 +124,7 @@ const BlogDetail = () => {
       await handleVoteChange(`https://urbannest-backend.onrender.com/api/blogs/decreaseUpvoteBlog/${id}`, setHasUpvoted, 'numOfUpvotes', -1);
     }
 
-    const endpoint = hasDownvoted ? `https://urbannest-backend.onrender.com/api/blogs/decreaseDownvoteBlog/${id}` : `/api/blogs/downvoteBlog/${id}`;
+    const endpoint = hasDownvoted ? `https://urbannest-backend.onrender.com/api/blogs/decreaseDownvoteBlog/${id}` : `https://urbannest-backend.onrender.com/api/blogs/downvoteBlog/${id}`;
     await handleVoteChange(endpoint, setHasDownvoted, 'numOfDownvotes', hasDownvoted ? -1 : 1);
   };
 
@@ -216,7 +216,7 @@ const BlogDetail = () => {
         await handleCommentVoteChange(`https://urbannest-backend.onrender.com/api/blogs/decreaseDownvoteComment/${commentId}`, index, 0);
       }
       // Then, apply the upvote
-      endpoint = `/api/blogs/upvoteComment/${commentId}`;
+      endpoint = `https://urbannest-backend.onrender.com/api/blogs/upvoteComment/${commentId}`;
       await handleCommentVoteChange(endpoint, index, 1);
     }
   };
