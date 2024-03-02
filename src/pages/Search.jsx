@@ -436,7 +436,7 @@ export default function search() {
     // Retrieve the token from local storage or cookies
 
     try {
-      const response = await fetch("/api/search/property", {
+      const response = await fetch("https://urbannest-backend.onrender.com/api/search/property", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
